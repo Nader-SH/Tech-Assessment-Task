@@ -3,7 +3,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
 import { join } from "path";
-// import router from "./routes/index.js";
+import router from "./routes/index.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -26,7 +26,7 @@ app.use([
   }),
 ]);
 
-// app.use("/api/v1", router);
+app.use("/api/v1", router);
 
 if (NODE_ENV === "production") {
   app.use(express.static(join(__dirname, "..", "client", "build")));
