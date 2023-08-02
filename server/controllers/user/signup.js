@@ -7,14 +7,13 @@ import { signUpValidation } from "../../validation/index.js";
 const signUp = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   try {
-    const validation = await signUpValidation(req.body);
-    console.log(validation,"sssssddddddd");
-    const emailExisted = await findUserEmail(req.body.email);
+    await signUpValidation(req.body);
+    const emailExisted = await findUserEmail(email);
     if (emailExisted) {
-      throw new CustomError(400,"This email is already existed");
+      throw new CustomError(400, "This email is already existed");
     }
     const hashed = await hash(password, 10);
-    const userData = await signUpQuery(firstName,lastName, email, hashed);
+    const userData = await signUpQuery(firstName, lastName, email, hashed);
 
     return res.status(201).json({
       userData: userData,

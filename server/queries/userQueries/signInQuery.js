@@ -1,7 +1,7 @@
 import { User } from '../../models/index.js';
 
 const signInQuery = (userEmail) =>
-User.findAll({
+User.findOne({
     where: {
       email: userEmail,
     },
