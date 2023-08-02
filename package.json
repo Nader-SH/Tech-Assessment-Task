@@ -21,7 +21,7 @@
   "homepage": "https://github.com/Nader-SH/Tech-Assessment-Task#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.33.0",
+    "cloudinary": "^1.40.0",
     "cloudinary-cli": "^1.1.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
