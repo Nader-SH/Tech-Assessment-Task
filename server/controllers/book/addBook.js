@@ -9,7 +9,6 @@ const addBook = async (req, res, next) => {
   const { author, title, description, image_link } = req.body;
   const file = req.file;
   const { id } = req.user;
-  console.log(id);
   try {
     if (!file) {
       try {
