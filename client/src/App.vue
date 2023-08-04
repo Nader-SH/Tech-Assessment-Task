@@ -7,23 +7,36 @@
 </template>
 
 <script>
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-};
+import axios from "axios";
+
 export default {
-  name: 'App',
-  created() {
-    const token = getCookie("token");
-    console.log(token);
-    if (!token || token === undefined) {
-      this.$router.push({ name: "signin" });
-    }else{
-      this.$router.push({ name: "dashboard" });
-    }
+  name: "App",
+  data() {
+    return {
+      userData: null,
+      error: null,
+    };
   },
-}
+  // methods: {
+  //   async fetchUserData() {
+  //     try {
+  //       this.error = null;
+  //       const response = await axios.get(
+  //         "http://localhost:8080/api/v1/userdata",
+  //         { withCredentials: true }
+  //       );
+  //       console.log(response.data);
+  //       this.userData = response.data;
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error.response.data.message);
+  //       this.error = error.response.data.message;
+  //     }
+  //   },
+  // },
+  // mounted() {
+  //   this.fetchUserData();
+  // },
+};
 </script>
 <style>
   .v-application__wrap {

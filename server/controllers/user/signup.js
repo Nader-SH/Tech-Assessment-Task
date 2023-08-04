@@ -18,7 +18,6 @@ const signUp = async (req, res, next) => {
       userData: userData,
       message: "Success",
     });
-    console.log(req.body);
   } catch (error) {
     res.status(error.status || 500).json({ message: error.message });
   }
