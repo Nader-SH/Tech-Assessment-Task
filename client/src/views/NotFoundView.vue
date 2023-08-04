@@ -1,18 +1,21 @@
 <template>
-  <Dashboard />
+  <div>
+    <NotFound />
+  </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-
-
-import Dashboard from '../components/Dashboard.vue';
+import NotFound from "../components/NotFound.vue";
 
 export default defineComponent({
-  name: 'DashboardView',
+  name: "NotFoundView",
 
   components: {
-    Dashboard,
+    NotFound,
   },
 });
 </script>
+
+<style>
+</style>

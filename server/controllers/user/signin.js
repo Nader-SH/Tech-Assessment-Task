@@ -30,6 +30,7 @@ const signIn = async (req, res) => {
         firstName: loginData.dataValues.first_name,
         lastName: loginData.dataValues.last_name,
       },
+      token: token,
       message: "Success",
     });
   } catch (error) {
