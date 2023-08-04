@@ -19,18 +19,18 @@ const signIn = async (req, res) => {
     const token = await generateToken({
       id: loginData.dataValues.id,
       email: loginData.dataValues.email,
-      password: loginData.dataValues.password,
       firstName: loginData.dataValues.first_name,
       lastName: loginData.dataValues.last_name,
     });
-    return res.cookie("token", token, { httpOnly: true }).json({
+
+   return res.cookie("token", token, { httpOnly: true }).json({
       data: {
         id: loginData.dataValues.id,
         email: loginData.dataValues.email,
         firstName: loginData.dataValues.first_name,
         lastName: loginData.dataValues.last_name,
       },
-      token: token,
+      // token:token,
       message: "Success",
     });
   } catch (error) {

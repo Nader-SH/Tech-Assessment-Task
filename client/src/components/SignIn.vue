@@ -32,7 +32,8 @@
   </div>
 </template>
     
-  <script>
+
+<script>
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "vue-router";
@@ -46,6 +47,12 @@ export default {
       error: null,
     };
   },
+  mounted() {
+    // Check if the user is already authenticated
+    if (Cookies.get("token")) {
+      this.$router.push({ name: "dashboard" });
+    }
+  },
   methods: {
     async submitForm() {
       try {
@@ -56,10 +63,10 @@ export default {
         };
         const response = await axios.post(
           "http://localhost:8080/api/v1/signin",
-          requestBody
+          requestBody,
+          { withCredentials: true }
         );
-        const token = response.data.token;
-        Cookies.set("token", token, { expires: 7, secure: true });
+        console.log(response);
         this.$router.push({ name: "dashboard" });
       } catch (error) {
         console.error("Error sending data:", error.response.data.message);
