@@ -20,7 +20,7 @@
                     required
                     type="password"
                   ></v-text-field>
-                  <v-btn type="submit" class="button">Sign In</v-btn>
+                  <v-btn type="submit" class="button" :disabled="!email || !password">Sign In</v-btn>
                 </v-form>
                 <div v-if="error" class="error-message">{{ error }}</div>
               </v-card-text>

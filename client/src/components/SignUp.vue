@@ -35,7 +35,12 @@
                   required
                   type="password"
                 ></v-text-field>
-                <v-btn type="submit" class="button">Sign Up</v-btn>
+                <v-btn
+                  type="submit"
+                  class="button"
+                  :disabled="!email || !password || !lastName || !firstName"
+                  >Sign Up</v-btn
+                >
               </v-form>
               <div v-if="errorMessage" class="error-message">
                 {{ errorMessage }}

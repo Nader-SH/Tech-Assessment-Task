@@ -17,25 +17,6 @@ export default {
       error: null,
     };
   },
-  // methods: {
-  //   async fetchUserData() {
-  //     try {
-  //       this.error = null;
-  //       const response = await axios.get(
-  //         "http://localhost:8080/api/v1/userdata",
-  //         { withCredentials: true }
-  //       );
-  //       console.log(response.data);
-  //       this.userData = response.data;
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error.response.data.message);
-  //       this.error = error.response.data.message;
-  //     }
-  //   },
-  // },
-  // mounted() {
-  //   this.fetchUserData();
-  // },
 };
 </script>
 <style>
