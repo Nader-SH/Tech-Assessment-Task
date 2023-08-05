@@ -83,7 +83,6 @@ export default {
           requestBody
         );
         this.$router.push({ name: "signin" });
-        console.log(response);
       } catch (error) {
         console.error("Error sending data:", error.response.data.message);
         this.errorMessage = error.response.data.message;
