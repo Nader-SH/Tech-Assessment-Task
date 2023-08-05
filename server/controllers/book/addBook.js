@@ -6,13 +6,14 @@ dotenv.config();
 
 const { API_SECRET, API_KEY, CLOUD_NAME } = process.env;
 const addBook = async (req, res, next) => {
-  const { author, title, description, image_link } = req.body;
+  const { author, title, description, image } = req.body;
   const file = req.file;
   const { id } = req.user;
   try {
     if (!file) {
       try {
-        await addBookQuery(author, title, description, image_link, id);
+        const image = "";
+        await addBookQuery(author, title, description, image, id);
         return res.status(201).json({
           message: "Book Add Success",
         });

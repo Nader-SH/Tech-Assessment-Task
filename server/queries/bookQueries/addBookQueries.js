@@ -5,7 +5,7 @@ const addBookQuery = async (author, title, description, image_link, id) =>
     author: author,
     title: title,
     description: description,
-    image_link: image_link,
+    imageLink: image_link,
     user_id: id,
   });
 
