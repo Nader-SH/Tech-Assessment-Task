@@ -66,7 +66,7 @@ export default {
           formData.append("description", this.newBook.description);
           formData.append("image", this.newBook.image[0]);
 
-          const upload = await axios.post(
+          await axios.post(
             "http://localhost:8080/api/v1/addbook",
             formData,
             { withCredentials: true }
