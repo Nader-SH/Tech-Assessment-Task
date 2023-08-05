@@ -72,6 +72,7 @@ export default {
 }
 
 .button {
+  font-weight: bold;
   margin-left: 10px;
   padding: 8px 12px;
   text-decoration: none;
