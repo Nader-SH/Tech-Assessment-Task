@@ -16,7 +16,7 @@
   
 <script>
 import axios from "axios";
-
+import auth from "../auth/auth.js";
 export default {
   name: "DachboardHeader",
   data() {
@@ -30,15 +30,8 @@ export default {
   },
   methods: {
     async fetchUserData() {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/userdata",
-          { withCredentials: true }
-        );
-        this.user = response.data;
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+      const data = await auth();
+      this.user = data.user;
     },
     async signOut() {
       try {
