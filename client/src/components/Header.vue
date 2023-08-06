@@ -45,19 +45,20 @@ export default {
   margin-left: 10px;
   padding: 8px 12px;
   text-decoration: none;
-  background-color: #04bca6 ;
-  color: rgb(var(--v-theme-on-primary)) ;
+  background-color: white ;
+  color: #04bca6;
   border-radius: 4px;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .button:hover {
-  background-color: #fff;
-  color: #04bca6;
+  color: #fff;
+  background-color: #04bca6;
 }
 a.router-link-exact-active{
-  background-color: #fff !important;
-  color: #04bca6 !important;
+  color: #fff !important;
+  background-color: #04bca6 !important;
 }
 
 /* Add any additional styling as needed */

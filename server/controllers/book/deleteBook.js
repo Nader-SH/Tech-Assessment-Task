@@ -9,7 +9,7 @@ const deleteBook = async (req, res, next) => {
   try {
     const data = await deleteBookQuery(bookId, id);
     if (data === 0) {
-      throw new CustomError(403, "Can't Delete This Book");
+      throw new CustomError(403, "Not Found");
     }
     return res.status(201).json({
       message: "Delete Book Success",

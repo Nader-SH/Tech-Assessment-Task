@@ -6,11 +6,10 @@ dotenv.config();
 const { API_SECRET, API_KEY, CLOUD_NAME } = process.env;
 
 const editBook = async (req, res, next) => {
-  const { bookId, author, title, description, imageLink } = req.body;
+  const { bookId, author, title, description ,imageLink } = req.body;
   const file = req.file;
   const { id } = req.user;
-  console.log(req.body);
-  console.log(typeof req.user.id);
+  // console.log(req.body);
   console.log(req.file);
   try {
     if (!file) {
@@ -29,6 +28,7 @@ const editBook = async (req, res, next) => {
         api_secret: API_SECRET,
       });
       const result = await cloudinary.uploader.upload(file.path);
+      console.log(result);
       const imageLink = result.secure_url;
       try {
         await editBookQuery(bookId ,author, title, description, imageLink, id);

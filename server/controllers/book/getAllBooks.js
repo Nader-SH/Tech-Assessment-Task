@@ -4,11 +4,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const getBooks = async (req, res, next) => {
-  const { id } = req.user;
+  const { id : userId } = req.user;
   try {
-    const books = await getBooksQuery(id);
+    const books = await getBooksQuery(userId);
     if (books[0] === undefined) {
-      throw new CustomError(204, "You Don't Have any Books");
+      res.status(201).json({});
     }
     res.status(201).json(books);
   } catch (error) {

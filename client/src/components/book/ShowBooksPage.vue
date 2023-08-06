@@ -12,12 +12,16 @@
             <div v-else class="no-image-placeholder">No Image Available</div>
           </div>
           <div class="book-details">
-            <h3>{{ book.title }}</h3>
-            <p class="description">{{ book.description }}</p>
+            <h3>Author: {{ book.author }}</h3>
+            <h4>Title: {{ book.title }}</h4>
+            <p class="description">Description: {{ book.description }}</p>
             <div class="buttonsDiv">
-              <button @click="editBook(book)" class="button">Edit</button>
+              <button @click="openEditPopup(book)" class="button">Edit</button>
               <button @click="showDeleteAlert(book.id)" class="button">
                 Delete
+              </button>
+              <button @click="redirectToDetails(book.id)" class="button">
+                Details
               </button>
             </div>
           </div>
@@ -26,30 +30,34 @@
     </div>
   </div>
 
-  <!-- Modal for editing book data -->
-  <div class="modal" v-if="editingBook">
+  <form class="modal" v-if="editingBook" @submit.prevent="submitBook">
     <div class="modal-content">
       <h3>Edit Book</h3>
       <label for="author">Author:</label>
-      <input v-model="editedBook.author" type="text" id="author" />
+      <input v-model="editingBook.author" type="text" id="author" />
       <label for="title">Title:</label>
-      <input v-model="editedBook.title" type="text" id="title" />
+      <input v-model="editingBook.title" type="text" id="title" />
       <label for="description">Description:</label>
-      <textarea v-model="editedBook.description" id="description"></textarea>
+      <textarea v-model="editingBook.description" id="description"></textarea>
       <label for="imageLink">Image:</label>
-      <input type="file" @change="handleImageUpload" accept="image/*" />
-      <div v-if="editedBook.imageLink" class="image-preview">
-        <img :src="editedBook.imageLink" alt="Book Cover" />
+      <input
+        type="file"
+        ref="imageInput"
+        @change="handleImageUpload"
+        accept="image/*"
+      />
+      <div v-if="editingBook.imageLink" class="image-preview">
+        <img :src="editingBook.imageLink" alt="Book Cover" />
       </div>
       <div v-else class="image-placeholder">No Image Selected</div>
-      <button @click="updateBook" class="button">Save</button>
-      <button @click="cancelEdit" class="button">Cancel</button>
+      <button type="submit" class="button">Save</button>
+      <button @click="closeEditPopup" class="button">Cancel</button>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
-import axios from "axios"; // Import the axios library
+import axios from "axios";
 
 export default {
   name: "ShowBooksPage",
@@ -60,16 +68,11 @@ export default {
     return {
       books: [],
       editingBook: null,
-      editedBook: {
-        author: "",
-        title: "",
-        description: "",
-        imageLink: "",
-      },
+      selectedImageFile: null,
     };
   },
   created() {
-    this.getBooks(); // Call the getBooks function when the component is created
+    this.getBooks();
   },
   methods: {
     async getBooks() {
@@ -78,7 +81,7 @@ export default {
           "http://localhost:8080/api/v1/getbooks",
           { withCredentials: true }
         );
-        this.books = response.data; // Update the books array with data from the response
+        this.books = response.data;
       } catch (error) {
         console.error("Error getting books:", error);
       }
@@ -103,59 +106,42 @@ export default {
         console.error("Error deleting book:", error);
       }
     },
-    editBook(book) {
-      this.editingBook = book;
-      this.editedBook = { ...book };
+    openEditPopup(book) {
+      this.editingBook = { ...book };
     },
-    async updateBook() {
-      try {
-        await axios.post(
-          `http://localhost:8080/api/v1/editbook`,
-          this.editedBook,
-          {
-            withCredentials: true,
-          }
-        );
-
-        // Update the book in the local array with the edited data
-        const index = this.books.findIndex((b) => b.id === this.editingBook.id);
-        if (index !== -1) {
-          this.books[index] = { ...this.editedBook };
-        }
-
-        this.editingBook = null;
-        console.log("Book updated successfully");
-      } catch (error) {
-        console.error("Error updating book:", error);
-      }
-    },
-    cancelEdit() {
+    closeEditPopup() {
       this.editingBook = null;
     },
-    handleImageUpload(event) {
-      const selectedImage = event.target.files[0];
-
-      if (selectedImage) {
-        this.uploadImage(selectedImage);
-      }
+    async updateBook() {
+      console.log(this.editingBook);
     },
-    async uploadImage(imageFile) {
+    redirectToDetails(bookId) {
+      // Implement the navigation logic
+    },
+    async submitBook() {
+      const data = new FormData();
+      data.append("bookId", this.editingBook.id);
+      data.append("author", this.editingBook.author);
+      data.append("title", this.editingBook.title);
+      data.append("description", this.editingBook.description);
+      data.append("image", this.editingBook.imageLink);
       try {
-        const formData = new FormData();
-        formData.append("image", imageFile);
-
         const response = await axios.post(
-          "http://localhost:8080/api/v1/uploadimage",
-          formData,
+          `http://localhost:8080/api/v1/editbook`,
+          data,
           {
             withCredentials: true,
           }
         );
-
-        this.editedBook.imageLink = response.data.imageUrl;
+        console.log(response.data.message);
+        this.editingBook = null;
       } catch (error) {
-        console.error("Error uploading image:", error);
+        console.error("Error edit book:", error);
       }
+    },
+    handleImageUpload(event) {
+      this.editingBook.imageLink = event.target.files[0];
+      console.log(this.editingBook.imageLink);
     },
   },
 };
@@ -239,6 +225,7 @@ export default {
 }
 
 .button {
+  border-radius: 8px;
   margin-left: 10px;
   padding: 8px 12px;
   text-decoration: none;

@@ -2,7 +2,6 @@ import { CustomError, verifyToken } from "../utils/index.js";
 
 const auth = async (req, res, next) => {
   try {
-    console.log(req.cookies);
     const { token } = req.cookies;
     if (!token) throw new CustomError(401, "Unauthorized");
     const user = await verifyToken(token);
