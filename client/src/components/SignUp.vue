@@ -100,6 +100,7 @@ export default {
 }
 
 .button {
+  border-radius: 8px;
   margin: auto;
   display: flex;
   color: white !important;
