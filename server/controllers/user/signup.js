@@ -10,11 +10,14 @@ const signUp = async (req, res, next) => {
     await signUpValidation(req.body);
     const emailExisted = await findUserEmail(email);
     if (emailExisted) {
-      throw new CustomError(400, "This email is already existed");
+      throw new CustomError(402, "This email is already existed");
     }
     const hashed = await hash(password, 10);
-    await signUpQuery(firstName, lastName, email, hashed);
-    return res.status(201).json({ message: "Success" });
+    const userData = await signUpQuery(firstName, lastName, email, hashed);
+    res.status(201).json({
+      userData: userData.dataValues,
+      message: "Success",
+    });
   } catch (error) {
     res.status(error.status || 500).json({ message: error.message });
   }
