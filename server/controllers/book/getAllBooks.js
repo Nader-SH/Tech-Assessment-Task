@@ -8,7 +8,7 @@ const getBooks = async (req, res, next) => {
   try {
     const books = await getBooksQuery(userId);
     if (books[0] === undefined) {
-      res.status(201).json({});
+      throw new CustomError(401,"You have no Books");
     }
     res.status(201).json(books);
   } catch (error) {
