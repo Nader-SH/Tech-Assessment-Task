@@ -3,6 +3,7 @@ import DashboardView from "../views/HomeView.vue";
 import SignUpView from "../views/SignUpView.vue";
 import SignInView from "../views/SignInView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import BookDetailsView from "../views/BookDetailsView.vue";
 import auth from "../auth/auth.js";
 
 const routes = [
@@ -30,6 +31,13 @@ const routes = [
     component: NotFoundView,
     meta: { requiresAuth: false },
   },
+  {
+  path: "/bookdetails/:id",
+  name :"bookdetailsview",
+  component: BookDetailsView,
+  props: true,
+  meta: { requiresAuth: true },
+},
 ];
 
 const router = createRouter({
@@ -45,9 +53,9 @@ router.beforeEach(async (to, from, next) => {
     } else if (data === "Unauthorized") {
       next("/signin");
     }
-  } else if (to.meta.requiresAuth === false){
-    if (data.user && data.token){
-      next("/")
+  } else if (to.meta.requiresAuth === false) {
+    if (data.user && data.token) {
+      next("/");
     }
     next();
   }

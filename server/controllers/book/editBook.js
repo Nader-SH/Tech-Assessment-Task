@@ -9,8 +9,6 @@ const editBook = async (req, res, next) => {
   const { bookId, author, title, description ,imageLink } = req.body;
   const file = req.file;
   const { id } = req.user;
-  // console.log(req.body);
-  console.log(req.file);
   try {
     if (!file) {
       try {
