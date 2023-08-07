@@ -2,7 +2,8 @@
   <div class="page-content">
     <h2>{{ pageTitle }}</h2>
     <div v-if="books.length === 0">
-      <p>No books to show.</p>
+      <p class="noBooks">You have no books. Go to Add Books.</p>
+
     </div>
     <div v-else class="book-list">
       <div v-for="book in books" :key="book.id" class="book-item">
@@ -12,17 +13,22 @@
             <div v-else class="no-image-placeholder">No Image Available</div>
           </div>
           <div class="book-details">
-            <h3>Author: {{ book.author }}</h3>
-            <h4>Title: {{ book.title }}</h4>
-            <p class="description">Description: {{ book.description }}</p>
+            <div class="authorTitleDiv">
+              <h3>By : {{ book.author }}</h3>
+              <h4>Title : {{ book.title }}</h4>
+            </div>
             <div class="buttonsDiv">
               <button @click="openEditPopup(book)" class="button">Edit</button>
               <button @click="showDeleteAlert(book.id)" class="button">
                 Delete
               </button>
-              <button @click="redirectToDetails(book.id)" class="button">
+              <router-link
+                @click="redirectToDetails(book.id)"
+                :to="{ name: 'bookdetailsview', params: { id: book.id } }"
+                class="button"
+              >
                 Details
-              </button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -114,8 +120,8 @@ export default {
     },
     async updateBook() {
       console.log(this.editingBook);
-    },
-    redirectToDetails(bookId) {
+    },   
+     redirectToDetails(bookId) {
       // Implement the navigation logic
     },
     async submitBook() {
@@ -148,6 +154,10 @@ export default {
 </script>
 
 <style scoped>
+.noBooks {
+  display: flex;
+  justify-content: center;
+}
 .page-content {
   padding: 20px;
 }
