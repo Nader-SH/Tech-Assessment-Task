@@ -7,7 +7,6 @@ dotenv.config();
 const getBookId = async (req, res, next) => {
   const {id : userId} = req.user;
   const {id : bookId} = req.params;
-  console.log(bookId);
     try {
       const book = await getBookIdQuery(bookId,userId);
       if (book === null) {

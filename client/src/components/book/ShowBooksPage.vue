@@ -107,7 +107,6 @@ export default {
           }
         );
         this.books = this.books.filter((book) => book.id !== bookId);
-        console.log("Book deleted successfully");
       } catch (error) {
         console.error("Error deleting book:", error);
       }
@@ -119,7 +118,7 @@ export default {
       this.editingBook = null;
     },
     async updateBook() {
-      console.log(this.editingBook);
+      
     },   
      redirectToDetails(bookId) {
       // Implement the navigation logic
@@ -139,7 +138,6 @@ export default {
             withCredentials: true,
           }
         );
-        console.log(response.data.message);
         this.editingBook = null;
       } catch (error) {
         console.error("Error edit book:", error);
@@ -147,7 +145,6 @@ export default {
     },
     handleImageUpload(event) {
       this.editingBook.imageLink = event.target.files[0];
-      console.log(this.editingBook.imageLink);
     },
   },
 };

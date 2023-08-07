@@ -26,7 +26,6 @@ const editBook = async (req, res, next) => {
         api_secret: API_SECRET,
       });
       const result = await cloudinary.uploader.upload(file.path);
-      console.log(result);
       const imageLink = result.secure_url;
       try {
         await editBookQuery(bookId ,author, title, description, imageLink, id);

@@ -80,7 +80,8 @@ export default {
 
         const response = await axios.post(
           "http://localhost:8080/api/v1/signup",
-          requestBody
+          requestBody,
+          { withCredentials: true }
         );
         this.$router.push({ name: "signin" });
       } catch (error) {
