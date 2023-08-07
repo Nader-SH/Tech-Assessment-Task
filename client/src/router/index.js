@@ -11,32 +11,32 @@ const routes = [
     path: "/",
     name: "dashboard",
     component: DashboardView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true ,title : "Dashboard" },
   },
   {
     path: "/signup",
     name: "signup",
     component: SignUpView,
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: false,title : "Sign Up" },
   },
   {
     path: "/signin",
     name: "signin",
     component: SignInView,
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: false ,title : "Sign In"},
   },
   {
     path: "/:catchAll(.*)",
     name: "notfoundview",
     component: NotFoundView,
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: false ,title : "Not Found"},
   },
   {
   path: "/bookdetails/:id",
   name :"bookdetailsview",
   component: BookDetailsView,
   props: true,
-  meta: { requiresAuth: true },
+  meta: { requiresAuth: true , title : "Book Details" },
 },
 ];
 
@@ -44,6 +44,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach((to,from ,next)=>{
+  document.title = `${to.meta.title}`
+  next();
+})
+
+
 
 router.beforeEach(async (to, from, next) => {
   const data = await auth();
