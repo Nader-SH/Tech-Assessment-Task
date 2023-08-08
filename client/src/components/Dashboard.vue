@@ -37,10 +37,10 @@ export default {
 };
 </script>
 <style scoped>
-.bookDiv{
+.bookDiv {
   display: flex;
-    justify-content: space-around;
-    margin: 10px;
+  justify-content: space-around;
+  margin: 10px;
 }
 .buttons {
   display: flex;

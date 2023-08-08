@@ -3,7 +3,6 @@
     <h2>{{ pageTitle }}</h2>
     <div v-if="books.length === 0">
       <p class="noBooks">You have no books. Go to Add Books.</p>
-
     </div>
     <div v-else class="book-list">
       <div v-for="book in books" :key="book.id" class="book-item">
@@ -23,7 +22,6 @@
                 Delete
               </button>
               <router-link
-                @click="redirectToDetails(book.id)"
                 :to="{ name: 'bookdetailsview', params: { id: book.id } }"
                 class="button"
               >
@@ -53,11 +51,16 @@
         accept="image/*"
       />
       <div v-if="editingBook.imageLink" class="image-preview">
-        <img :src="editingBook.imageLink" alt="Book Cover" />
+        <img
+          :src="this.pathImage ? this.pathImage : editingBook.imageLink"
+          alt="Book Cover"
+        />
       </div>
       <div v-else class="image-placeholder">No Image Selected</div>
-      <button type="submit" class="button">Save</button>
-      <button @click="closeEditPopup" class="button">Cancel</button>
+      <div class="buttons-modal">
+        <button type="submit" class="button">Save</button>
+        <button @click="closeEditPopup" class="button">Cancel</button>
+      </div>
     </div>
   </form>
 </template>
@@ -75,6 +78,7 @@ export default {
       books: [],
       editingBook: null,
       selectedImageFile: null,
+      pathImage: null,
     };
   },
   created() {
@@ -106,7 +110,7 @@ export default {
             withCredentials: true,
           }
         );
-        this.books = this.books.filter((book) => book.id !== bookId);
+        await this.getBooks();
       } catch (error) {
         console.error("Error deleting book:", error);
       }
@@ -116,12 +120,7 @@ export default {
     },
     closeEditPopup() {
       this.editingBook = null;
-    },
-    async updateBook() {
-      
-    },   
-     redirectToDetails(bookId) {
-      // Implement the navigation logic
+      this.pathImage = null;
     },
     async submitBook() {
       const data = new FormData();
@@ -138,13 +137,22 @@ export default {
             withCredentials: true,
           }
         );
+        this.getBooks();
         this.editingBook = null;
       } catch (error) {
         console.error("Error edit book:", error);
       }
     },
-    handleImageUpload(event) {
+    async handleImageUpload(event) {
       this.editingBook.imageLink = event.target.files[0];
+
+      if (this.editingBook.imageLink) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.pathImage = e.target.result;
+        };
+        reader.readAsDataURL(this.editingBook.imageLink);
+      }
     },
   },
 };
@@ -203,6 +211,10 @@ export default {
 .image-preview img {
   max-width: 100%;
   max-height: 200px;
+}
+.image-preview {
+  display: flex;
+  justify-content: center;
 }
 
 .image-placeholder {
@@ -266,9 +278,16 @@ export default {
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  max-width: 400px; /* Default width for small screens */
+  width: 400px;
 }
 
+@media (min-width: 768px) {
+  .modal-content {
+    max-width: 520px;
+    width: 520px;
+  }
+}
 .modal label {
   display: block;
   margin-bottom: 5px;
@@ -281,6 +300,10 @@ export default {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+.buttons-modal {
+  display: flex;
+  justify-content: space-around;
 }
 
 .modal button {

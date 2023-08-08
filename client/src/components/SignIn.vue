@@ -35,9 +35,6 @@
 
 <script>
 import axios from "axios";
-import Cookies from "js-cookie";
-import { useRouter } from "vue-router";
-
 export default {
   name: "SignIn",
   data() {
@@ -48,10 +45,7 @@ export default {
     };
   },
   mounted() {
-    // Check if the user is already authenticated
-    if (Cookies.get("token")) {
-      this.$router.push({ name: "dashboard" });
-    }
+
   },
   methods: {
     async submitForm() {
