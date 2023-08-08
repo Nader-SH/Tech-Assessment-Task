@@ -1,6 +1,13 @@
 <template>
   <div class="page-content">
     <h2>{{ pageTitle }}</h2>
+    <div class="search-container">
+      <input
+        v-model="searchQuery"
+        @input="searchBooks"
+        placeholder="Search books By Auther or Title...."
+      />
+    </div>
     <div v-if="books.length === 0">
       <p class="noBooks">You have no books. Go to Add Books.</p>
     </div>
@@ -13,8 +20,8 @@
           </div>
           <div class="book-details">
             <div class="authorTitleDiv">
-              <h3>By : {{ book.author }}</h3>
-              <h4>Title : {{ book.title }}</h4>
+              <h3 class="title">Title : {{ book.title }}</h3>
+              <h4 class="author">By : {{ book.author }}</h4>
             </div>
             <div class="buttonsDiv">
               <button @click="openEditPopup(book)" class="button">Edit</button>
@@ -32,37 +39,40 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <form class="modal" v-if="editingBook" @submit.prevent="submitBook">
-    <div class="modal-content">
-      <h3>Edit Book</h3>
-      <label for="author">Author:</label>
-      <input v-model="editingBook.author" type="text" id="author" />
-      <label for="title">Title:</label>
-      <input v-model="editingBook.title" type="text" id="title" />
-      <label for="description">Description:</label>
-      <textarea v-model="editingBook.description" id="description"></textarea>
-      <label for="imageLink">Image:</label>
-      <input
-        type="file"
-        ref="imageInput"
-        @change="handleImageUpload"
-        accept="image/*"
-      />
-      <div v-if="editingBook.imageLink" class="image-preview">
-        <img
-          :src="this.pathImage ? this.pathImage : editingBook.imageLink"
-          alt="Book Cover"
+    <!-- Loading indicator while fetching content -->
+    <div v-if="loading" class="loading-indicator">Loading...</div>
+
+    <form class="modal" v-if="editingBook" @submit.prevent="submitBook">
+      <div class="modal-content">
+        <h3>Edit Book</h3>
+        <label for="author">Author:</label>
+        <input v-model="editingBook.author" type="text" id="author" />
+        <label for="title">Title:</label>
+        <input v-model="editingBook.title" type="text" id="title" />
+        <label for="description">Description:</label>
+        <textarea v-model="editingBook.description" id="description"></textarea>
+        <label for="imageLink">Image:</label>
+        <input
+          type="file"
+          ref="imageInput"
+          @change="handleImageUpload"
+          accept="image/*"
         />
+        <div v-if="editingBook.imageLink" class="image-preview">
+          <img
+            :src="this.pathImage ? this.pathImage : editingBook.imageLink"
+            alt="Book Cover"
+          />
+        </div>
+        <div v-else class="image-placeholder">No Image Selected</div>
+        <div class="buttons-modal">
+          <button type="submit" class="button">Save</button>
+          <button @click="closeEditPopup" class="button">Cancel</button>
+        </div>
       </div>
-      <div v-else class="image-placeholder">No Image Selected</div>
-      <div class="buttons-modal">
-        <button type="submit" class="button">Save</button>
-        <button @click="closeEditPopup" class="button">Cancel</button>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -79,21 +89,44 @@ export default {
       editingBook: null,
       selectedImageFile: null,
       pathImage: null,
+      currentPage: 1,
+      loading: false,
+      searchText: "",
     };
   },
   created() {
     this.getBooks();
   },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
   methods: {
     async getBooks() {
       try {
+        this.loading = true;
         const response = await axios.get(
-          "http://localhost:8080/api/v1/getbooks",
+          `http://localhost:8080/api/v1/getbooks/?page=${this.currentPage}&searchText=${this.searchText}`,
           { withCredentials: true }
         );
-        this.books = response.data;
+        if (response.data.searchBooksData) {
+          this.books = [];
+          this.books = response.data.searchBooksData;
+        } else {
+          this.books = this.books.concat(response.data);
+        }
       } catch (error) {
-        console.error("Error getting books:", error);
+        return;
+        // console.error("Error getting books:", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    handleScroll() {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        this.currentPage = this.currentPage + 1;
+        this.getBooks(this.currentPage);
       }
     },
     showDeleteAlert(bookId) {
@@ -112,7 +145,8 @@ export default {
         );
         await this.getBooks();
       } catch (error) {
-        console.error("Error deleting book:", error);
+        return;
+        // console.error("Error deleting book:", error);
       }
     },
     openEditPopup(book) {
@@ -129,6 +163,7 @@ export default {
       data.append("title", this.editingBook.title);
       data.append("description", this.editingBook.description);
       data.append("image", this.editingBook.imageLink);
+
       try {
         const response = await axios.post(
           `http://localhost:8080/api/v1/editbook`,
@@ -137,11 +172,22 @@ export default {
             withCredentials: true,
           }
         );
+        this.currentPage = 1;
         this.getBooks();
+        this.books = [];
         this.editingBook = null;
       } catch (error) {
-        console.error("Error edit book:", error);
+        return;
+        // console.error("Error editing book:", error);
       }
+    },
+    async searchBooks(event) {
+      this.currentPage = 1;
+      this.searchText = event.target.value;
+      if (this.searchText === "") {
+        this.books = [];
+      }
+      await this.getBooks();
     },
     async handleImageUpload(event) {
       this.editingBook.imageLink = event.target.files[0];
@@ -159,10 +205,31 @@ export default {
 </script>
 
 <style scoped>
+/* Existing styles */
+
+.search-container {
+  margin-bottom: 20px;
+}
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-container input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #04bca6;
+  border-radius: 4px;
+}
+
+.title {
+  color: #04bca6;
+}
 .noBooks {
   display: flex;
   justify-content: center;
 }
+
 .page-content {
   padding: 20px;
 }
@@ -288,6 +355,7 @@ export default {
     width: 520px;
   }
 }
+
 .modal label {
   display: block;
   margin-bottom: 5px;
@@ -301,6 +369,7 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
 .buttons-modal {
   display: flex;
   justify-content: space-around;
