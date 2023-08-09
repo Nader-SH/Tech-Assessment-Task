@@ -46,10 +46,10 @@
     <form class="modal" v-if="editingBook" @submit.prevent="submitBook">
       <div class="modal-content">
         <h3>Edit Book</h3>
-        <label for="author">Author:</label>
-        <input v-model="editingBook.author" type="text" id="author" />
         <label for="title">Title:</label>
         <input v-model="editingBook.title" type="text" id="title" />
+        <label for="author">By:</label>
+        <input v-model="editingBook.author" type="text" id="author" />
         <label for="description">Description:</label>
         <textarea v-model="editingBook.description" id="description"></textarea>
         <label for="imageLink">Image:</label>
