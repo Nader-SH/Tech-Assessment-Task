@@ -6,7 +6,7 @@ export default class Book extends Model {
   author;
   title;
   description;
-  image_link;
+  imageLink;
   user_id;
 }
 

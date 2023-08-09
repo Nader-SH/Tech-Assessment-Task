@@ -19,12 +19,12 @@ const getBooksQuerySearch = async (id, searchText) => {
       [Op.or]: [
         {
           title: {
-            [Op.iLike]: `${searchText}%`, // StartsWith search for title
+            [Op.iLike]: `${searchText}%`,
           },
         },
         {
           author: {
-            [Op.iLike]: `${searchText}%`, // StartsWith search for author
+            [Op.iLike]: `${searchText}%`,
           },
         },
       ],

@@ -103,7 +103,7 @@ export default {
   methods: {
     async getBooks() {
       try {
-        this.loading = true;
+        console.log("data");
         const response = await axios.get(
           `http://localhost:8080/api/v1/getbooks/?page=${this.currentPage}&searchText=${this.searchText}`,
           { withCredentials: true }
@@ -143,10 +143,11 @@ export default {
             withCredentials: true,
           }
         );
-        await this.getBooks();
       } catch (error) {
         return;
         // console.error("Error deleting book:", error);
+      } finally {
+        this.getBooks();
       }
     },
     openEditPopup(book) {
@@ -187,7 +188,7 @@ export default {
       if (this.searchText === "") {
         this.books = [];
       }
-      await this.getBooks();
+      this.getBooks();
     },
     async handleImageUpload(event) {
       this.editingBook.imageLink = event.target.files[0];
