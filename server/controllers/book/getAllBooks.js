@@ -3,8 +3,6 @@ import {
   getBooksQuery,
   getBooksQuerySearch,
 } from "../../queries/bookQueries/index.js";
-import dotenv from "dotenv";
-dotenv.config();
 
 const getBooks = async (req, res, next) => {
   const { id: userId } = req.user;

@@ -1,7 +1,5 @@
 import { CustomError } from "../../utils/index.js";
 import { deleteBookQuery } from "../../queries/bookQueries/index.js";
-import dotenv from "dotenv";
-dotenv.config();
 
 const deleteBook = async (req, res, next) => {
   const { bookId } = req.body;

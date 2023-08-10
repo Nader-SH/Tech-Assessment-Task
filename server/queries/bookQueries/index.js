@@ -5,6 +5,7 @@ import {
   getBooksQuerySearch,getBooksQuery,
 } from "./getAllBookQueries.js";
 import getBookIdQuery from "./getBookIdQuery.js";
+import getBooksNoAuthQuery from "./getBooksNoAuthQuery.js";
 
 export {
   addBookQuery,
@@ -13,4 +14,5 @@ export {
   getBooksQuery,
   getBooksQuerySearch,
   getBookIdQuery,
+  getBooksNoAuthQuery,
 };
