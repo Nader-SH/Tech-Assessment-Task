@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import AddBookPage from "../components/book/AddBookPage.vue.vue";
+import AddBookPage from "./book/AddBookPage.vue";
 import ShowBooksPage from "../components/book/ShowBooksPage.vue";
 
 export default {

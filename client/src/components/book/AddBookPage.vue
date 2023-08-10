@@ -32,6 +32,13 @@
         id="image"
         accept="image/*"
       ></v-file-input>
+      <div class="checkboxDiv" @click="showBookToPublic()">
+        <v-checkbox
+          class="checkBox"
+          :v-model="showBook"
+          label="Show a book to the public"
+        ></v-checkbox>
+      </div>
 
       <v-btn type="submit" class="submit-button button">Add Book</v-btn>
     </form>
@@ -53,6 +60,7 @@ export default {
         author: "",
         description: "",
         image: null || "",
+        showBook: false,
       },
     };
   },
@@ -65,17 +73,17 @@ export default {
           formData.append("author", this.newBook.author);
           formData.append("description", this.newBook.description);
           formData.append("image", this.newBook.image[0]);
+          formData.append("showBook", this.showBook);
 
-          await axios.post(
-            "http://localhost:8080/api/v1/addbook",
-            formData,
-            { withCredentials: true }
-          );
+          await axios.post("http://localhost:8080/api/v1/addbook", formData, {
+            withCredentials: true,
+          });
           this.newBook = {
             title: "",
             author: "",
             description: "",
             image: null || "",
+            showBook:"",
           };
         } catch (error) {
           console.error("Error adding book:", error);
@@ -84,11 +92,15 @@ export default {
     },
     validateForm() {
       return (
-        this.newBook.title.trim() !== "" &&
-        this.newBook.author.trim() !== "" &&
-        this.newBook.description.trim() !== "" &&
-        this.newBook.image[0] !== null || ""
+        (this.newBook.title.trim() !== "" &&
+          this.newBook.author.trim() !== "" &&
+          this.newBook.description.trim() !== "" &&
+          this.newBook.image[0] !== null) ||
+        ""
       );
+    },
+    showBookToPublic() {
+      this.showBook = this.showBook ? false : true;
     },
   },
 };
@@ -119,10 +131,13 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+.checkboxDiv {
+  display: flex;
+}
 .button {
+  display: flex;
+  margin: auto;
   border-radius: 8px;
-  margin-left: 10px;
   padding: 8px 12px;
   text-decoration: none;
   background-color: #04bca6;
@@ -135,5 +150,4 @@ export default {
   background-color: white;
   color: #04bca6;
 }
-/* You can remove the custom button styles since Vuetify's <v-btn> will be used */
 </style>

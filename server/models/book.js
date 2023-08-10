@@ -7,6 +7,7 @@ export default class Book extends Model {
   title;
   description;
   imageLink;
+  showBook;
   user_id;
 }
 
@@ -28,6 +29,11 @@ Book.init(
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    showBook: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     imageLink: {
       type: DataTypes.STRING,
