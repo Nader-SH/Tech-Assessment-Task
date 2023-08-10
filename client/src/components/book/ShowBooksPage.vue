@@ -15,7 +15,7 @@
       <div v-for="book in books" :key="book.id" class="book-item">
         <div class="book-container">
           <div class="book-image">
-            <img v-if="book.imageLink" :src="book.imageLink" alt="Book Cover" />
+            <v-img v-if="book.imageLink" :src="book.imageLink" alt="Book Cover" />
             <div v-else class="no-image-placeholder">No Image Available</div>
           </div>
           <div class="authorTitleDiv">
@@ -150,6 +150,8 @@ export default {
             withCredentials: true,
           }
         );
+        this.books = [];
+        this.currentPage = 1;
         this.getBooks();
       } catch (error) {
         return;
@@ -213,7 +215,18 @@ export default {
 </script>
 
 <style scoped>
-/* Existing styles */
+.v-responsive {
+    display: flex;
+    flex: 1 0 auto;
+    max-height: 80%;
+    max-width: 80%;
+    overflow: hidden;
+    position: relative;
+}
+.v-img__img{
+width: 100%;
+height: 100%;
+}
 
 .search-container {
   margin-bottom: 20px;

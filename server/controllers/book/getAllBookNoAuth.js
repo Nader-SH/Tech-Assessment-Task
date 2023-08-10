@@ -4,6 +4,7 @@ import { getBooksNoAuthQuery } from "../../queries/bookQueries/index.js";
 const getBooksNoAuth = async (req, res, next) => {
   console.log(req.query);
   const { page } = req.query;
+  console.log(page);
   try {
     const books = await getBooksNoAuthQuery(page);
     if(!books[0]){

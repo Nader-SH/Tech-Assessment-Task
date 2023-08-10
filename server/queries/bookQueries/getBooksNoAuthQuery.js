@@ -1,14 +1,17 @@
 import { Book, User } from "../../models/index.js";
 
 const getBooksNoAuthQuery = async (page) => {
-  const limit = 6;
+  const limit = 7;
   return Book.findAll({
+
     where: {
       showBook: true,
     },
+    attributes:["id","author","imageLink","title","description"],
     include: [
       {
         model: User,
+        attributes:["id","first_name","last_name"],
       },
     ],
     limit,
