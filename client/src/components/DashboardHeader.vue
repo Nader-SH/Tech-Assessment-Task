@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="user-info">
-      <img :src="logo" alt="Logo" class="logo" />
+      <v-img :src="logo" alt="Logo" class="logo" />
     </div>
     <div class="user-name">
         <span>{{ user.firstName }}</span>
@@ -9,7 +9,7 @@
       <span>{{ user.lastName }}</span>
     </div>
     <div>
-      <button class="sign-out-btn button" @click="signOut">Sign Out</button>
+      <v-btn class="sign-out-btn button" @click="signOut">Sign Out</v-btn>
     </div>
   </header>
 </template>
@@ -72,6 +72,7 @@ export default {
 }
 
 .button {
+  flex: 1;
   font-weight: bold;
   margin-left: 10px;
   padding: 8px 12px;

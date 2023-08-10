@@ -18,42 +18,41 @@
             <img v-if="book.imageLink" :src="book.imageLink" alt="Book Cover" />
             <div v-else class="no-image-placeholder">No Image Available</div>
           </div>
+          <div class="authorTitleDiv">
+            <h3 class="title">Title : {{ book.title }}</h3>
+            <h4 class="author">By : {{ book.author }}</h4>
+          </div>
           <div class="book-details">
-            <div class="authorTitleDiv">
-              <h3 class="title">Title : {{ book.title }}</h3>
-              <h4 class="author">By : {{ book.author }}</h4>
-            </div>
-            <div class="buttonsDiv">
-              <button @click="openEditPopup(book)" class="button">Edit</button>
-              <button @click="showDeleteAlert(book.id)" class="button">
-                Delete
-              </button>
-              <router-link
-                :to="{ name: 'bookdetailsview', params: { id: book.id } }"
-                class="button"
-              >
-                Details
-              </router-link>
-            </div>
+          </div>
+          <div class="buttonsDiv">
+            <v-btn @click="openEditPopup(book)" class="button">Edit</v-btn>
+            <v-btn @click="showDeleteAlert(book.id)" class="button">
+              Delete
+            </v-btn>
+            <v-btn
+              class="button"
+              :to="{ name: 'bookdetailsview', params: { id: book.id } }"
+            >
+              Details
+            </v-btn>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Loading indicator while fetching content -->
     <div v-if="loading" class="loading-indicator">Loading...</div>
 
     <form class="modal" v-if="editingBook" @submit.prevent="submitBook">
       <div class="modal-content">
         <h3>Edit Book</h3>
         <label for="title">Title:</label>
-        <input v-model="editingBook.title" type="text" id="title" />
+        <v-text-field v-model="editingBook.title" type="text" id="title" />
         <label for="author">By:</label>
-        <input v-model="editingBook.author" type="text" id="author" />
+        <v-text-field v-model="editingBook.author" type="text" id="author" />
         <label for="description">Description:</label>
         <textarea v-model="editingBook.description" id="description"></textarea>
         <label for="imageLink">Image:</label>
-        <input
+        <v-file-input
           type="file"
           ref="imageInput"
           @change="handleImageUpload"
@@ -67,8 +66,8 @@
         </div>
         <div v-else class="image-placeholder">No Image Selected</div>
         <div class="buttons-modal">
-          <button type="submit" class="button">Save</button>
-          <button @click="closeEditPopup" class="button">Cancel</button>
+          <v-btn type="submit" class="button">Save</v-btn>
+          <v-btn @click="closeEditPopup" class="button">Cancel</v-btn>
         </div>
       </div>
     </form>
@@ -126,7 +125,7 @@ export default {
         document.documentElement;
       if (scrollTop + clientHeight >= scrollHeight - 20) {
         this.currentPage = this.currentPage + 1;
-        this.getBooks(this.currentPage);
+        this.getBooks();
       }
     },
     showDeleteAlert(bookId) {
@@ -143,11 +142,10 @@ export default {
             withCredentials: true,
           }
         );
+        this.getBooks();
       } catch (error) {
         return;
         // console.error("Error deleting book:", error);
-      } finally {
-        this.getBooks();
       }
     },
     openEditPopup(book) {
@@ -183,6 +181,7 @@ export default {
       }
     },
     async searchBooks(event) {
+      this.books = [];
       this.currentPage = 1;
       this.searchText = event.target.value;
       if (this.searchText === "") {
@@ -222,9 +221,12 @@ export default {
   border: 1px solid #04bca6;
   border-radius: 4px;
 }
-
+.author{
+  word-wrap: break-word;
+}
 .title {
   color: #04bca6;
+  word-wrap: break-word;
 }
 .noBooks {
   display: flex;
@@ -245,10 +247,15 @@ export default {
   width: 400px;
   margin-bottom: 20px;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 5px 12px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  border: 2px solid white;
+  border-radius: 4px;
 }
-
+.book-item:hover {
+  border: 2px solid #04bca6;
+  transition: border-color 0.3s ease-in-out;
+}
 .book-container {
   display: flex;
   flex-direction: column;
@@ -295,7 +302,8 @@ export default {
 }
 
 .book-details {
-  flex: 1;
+  display: flex;
+    flex-direction: column;
   padding: 10px;
 }
 
@@ -309,9 +317,11 @@ export default {
 .buttonsDiv {
   display: flex;
   justify-content: space-around;
+  margin-top: auto;
 }
 
 .button {
+  flex: 1;
   border-radius: 8px;
   margin-left: 10px;
   padding: 8px 12px;

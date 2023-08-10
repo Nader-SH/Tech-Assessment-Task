@@ -16,11 +16,18 @@
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
                     label="Password"
                     required
-                    type="password"
+                    @click:append="togglePasswordVisibility"
                   ></v-text-field>
-                  <v-btn type="submit" class="button" :disabled="!email || !password">Sign In</v-btn>
+                  <v-btn
+                    type="submit"
+                    class="button"
+                    :disabled="!email || !password"
+                    >Sign In</v-btn
+                  >
                 </v-form>
                 <div v-if="error" class="error-message">{{ error }}</div>
               </v-card-text>
@@ -31,10 +38,10 @@
     </v-app>
   </div>
 </template>
-    
 
 <script>
 import axios from "axios";
+
 export default {
   name: "SignIn",
   data() {
@@ -42,10 +49,8 @@ export default {
       email: "",
       password: "",
       error: null,
+      showPassword: false,
     };
-  },
-  mounted() {
-
   },
   methods: {
     async submitForm() {
@@ -66,19 +71,23 @@ export default {
         this.error = error.response.data.message;
       }
     },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
   },
 };
 </script>
-    
-  <style scoped>
+
+<style scoped>
 .signin-card {
   margin-top: 100px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .button {
-  margin: auto;
+  margin-top: 10px;
   display: flex;
+  margin: auto;
   color: white !important;
   background-color: #04bca6;
 }
@@ -99,4 +108,3 @@ export default {
   margin-top: 10px;
 }
 </style>
-  

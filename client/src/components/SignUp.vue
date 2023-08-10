@@ -30,10 +30,12 @@
                   type="email"
                 ></v-text-field>
                 <v-text-field
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   v-model="password"
                   label="Password"
                   required
-                  type="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  @click:append="togglePasswordVisibility"
                 ></v-text-field>
                 <v-btn
                   type="submit"
@@ -65,6 +67,7 @@ export default {
       email: "",
       password: "",
       errorMessage: "",
+      showPassword : false,
     };
   },
   methods: {
@@ -88,6 +91,9 @@ export default {
         console.error("Error sending data:", error.response.data.message);
         this.errorMessage = error.response.data.message;
       }
+    },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
     },
   },
 };

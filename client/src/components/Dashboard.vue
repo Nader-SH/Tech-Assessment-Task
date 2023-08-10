@@ -4,14 +4,11 @@
       <v-btn class="button" @click="switchToAddBook">Add a Book</v-btn>
       <v-btn class="button" @click="switchToShowBooks">Show Books</v-btn>
     </div>
-
-    <!-- Render the active component based on the currentComponent value -->
     <component :is="currentComponent" />
   </div>
 </template>
 
 <script>
-// import { VBtn } from 'vuetify/lib';
 import AddBookPage from "../components/book/AddBookPage.vue.vue";
 import ShowBooksPage from "../components/book/ShowBooksPage.vue";
 
@@ -44,6 +41,7 @@ export default {
 }
 .buttons {
   display: flex;
+  flex: 1;
 }
 
 .button {
