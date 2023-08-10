@@ -1,13 +1,16 @@
 <template>
-  <header class="header">
-    <router-link to="/">
-      <v-img :src="logo" alt="Logo" class="logo" />
-    </router-link>
-    <div class="buttons">
-      <v-btn to="/signin" class="button">Sign In</v-btn>
-      <v-btn to="/signup" class="button">Sign Up</v-btn>
-    </div>
-  </header>
+  <div>
+    <header class="header">
+      <router-link to="/">
+        <v-img :src="logo" alt="Logo" class="logo" />
+      </router-link>
+      <div class="buttons">
+        <v-btn to="/books" class="button">All Books</v-btn>
+        <v-btn to="/signin" class="button">Sign In</v-btn>
+        <v-btn to="/signup" class="button">Sign Up</v-btn>
+      </div>
+    </header>
+  </div>
 </template>
   
   <script>
@@ -15,9 +18,9 @@ export default {
   name: "Header",
   data() {
     return {
-      logo: require('@/assets/onex_logo.png')
+      logo: require("@/assets/onex_logo.png"),
     };
-  }
+  },
 };
 </script>
   
@@ -45,7 +48,7 @@ export default {
   margin-left: 10px;
   padding: 8px 12px;
   text-decoration: none;
-  background-color: white ;
+  background-color: white;
   color: #04bca6;
   border-radius: 4px;
   cursor: pointer;
@@ -56,9 +59,9 @@ export default {
   color: #fff;
   background-color: #04bca6;
 }
-a.v-btn--active{
-  color: #fff ;
-  background-color: #04bca6 ;
+a.v-btn--active {
+  color: #fff;
+  background-color: #04bca6;
 }
 
 /* Add any additional styling as needed */
