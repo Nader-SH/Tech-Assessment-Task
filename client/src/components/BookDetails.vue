@@ -3,11 +3,11 @@
       <h1 class="title">Book Details</h1>
       <div v-if="book" class="book-info">
         <div class="book-image">
-          <img :src="book.imageLink" alt="Book Cover" />
+          <v-img :src="book.imageLink" alt="Book Cover" />
         </div>
         <div class="book-details">
             <p class="title"><strong>Title:</strong> {{ book.title }}</p>
-          <p class="author"><strong>By:</strong> {{ book.author }}</p>
+          <v-p class="author"><strong>By:</strong> {{ book.author }}</v-p>
           <p class="description"><strong>Description:</strong> {{ book.description }}</p>
           <p class="created-at"><strong>Published:</strong> {{ formattedCreatedAt }}</p>
         </div>

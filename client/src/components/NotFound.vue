@@ -31,9 +31,17 @@
   .message {
     font-size: 1.5rem;
   }
+
   .button{
-    color: #04bca6;
-    background-color: white;
+    font-weight: bold;
+  margin-left: 10px;
+  padding: 8px 12px;
+  text-decoration: none;
+  background-color: white ;
+  color: #04bca6;
+  border-radius: 4px;
+  cursor: pointer;
+  border-radius: 8px;
   }
   </style>
   

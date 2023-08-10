@@ -1,11 +1,11 @@
 <template>
   <header class="header">
     <router-link to="/">
-      <img :src="logo" alt="Logo" class="logo" />
+      <v-img :src="logo" alt="Logo" class="logo" />
     </router-link>
     <div class="buttons">
-      <router-link to="/signin" class="button">Sign In</router-link>
-      <router-link to="/signup" class="button">Sign Up</router-link>
+      <v-btn to="/signin" class="button">Sign In</v-btn>
+      <v-btn to="/signup" class="button">Sign Up</v-btn>
     </div>
   </header>
 </template>
@@ -56,9 +56,9 @@ export default {
   color: #fff;
   background-color: #04bca6;
 }
-a.router-link-exact-active{
-  color: #fff !important;
-  background-color: #04bca6 !important;
+a.v-btn--active{
+  color: #fff ;
+  background-color: #04bca6 ;
 }
 
 /* Add any additional styling as needed */
