@@ -4,6 +4,7 @@
 <div align="center" id="top">
     <img src="https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/8ec2470d-0d3a-4ee1-bacf-2ee90d160406"  height="99" alt="Logo" >
 
+
   <h3 align="center">
     Tech Assessment Task For Onex
   </h3>
@@ -17,7 +18,7 @@ A full-stack web application for managing a personal book collection. The applic
 
 ## [**Database Schema**:](https://drawsql.app/teams/nader-shak/diagrams/onex-beginning-of-the-technical-assessment)
 
-![Onex - Beginning of the technical assessment _ DrawSQL - Google Chrome 8_9_2023 11_33_02 PM](https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/f4459dbf-c214-45ea-8b72-d7794c3ab815)
+![Onex - Beginning of the technical assessment _ DrawSQL - Google Chrome 8_10_2023 9_44_10 PM (2)](https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/63819498-a70e-4e00-8edb-b478411f604d)
 
 
 ## **Getting Started**  
