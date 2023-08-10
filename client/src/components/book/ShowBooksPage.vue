@@ -65,6 +65,13 @@
           />
         </div>
         <div v-else class="image-placeholder">No Image Selected</div>
+        <div class="checkboxDiv">
+        <v-checkbox
+          class="checkBox"
+          v-model="editingBook.showBook"
+          label="Show the Book in Public"
+        ></v-checkbox>
+      </div>
         <div class="buttons-modal">
           <v-btn type="submit" class="button">Save</v-btn>
           <v-btn @click="closeEditPopup" class="button">Cancel</v-btn>
@@ -107,6 +114,7 @@ export default {
           `http://localhost:8080/api/v1/getbooks/?page=${this.currentPage}&searchText=${this.searchText}`,
           { withCredentials: true }
         );
+        console.log(response.data);
         if (response.data.searchBooksData) {
           this.books = [];
           this.books = response.data.searchBooksData;
@@ -162,9 +170,10 @@ export default {
       data.append("title", this.editingBook.title);
       data.append("description", this.editingBook.description);
       data.append("image", this.editingBook.imageLink);
-
+      data.append("showBook",this.editingBook.showBook)
+      console.log(this.editingBook.showBook); 
       try {
-        const response = await axios.post(
+       await axios.post(
           `http://localhost:8080/api/v1/editbook`,
           data,
           {
@@ -191,7 +200,6 @@ export default {
     },
     async handleImageUpload(event) {
       this.editingBook.imageLink = event.target.files[0];
-
       if (this.editingBook.imageLink) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -339,6 +347,7 @@ export default {
 
 /* Styles for the modal */
 .modal {
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -352,6 +361,8 @@ export default {
 }
 
 .modal-content {
+  margin-top: 120px;
+  margin-bottom: 20px;
   background-color: white;
   padding: 20px;
   border-radius: 4px;

@@ -6,14 +6,15 @@ dotenv.config();
 const { API_SECRET, API_KEY, CLOUD_NAME } = process.env;
 
 const addBook = async (req, res, next) => {
-  const { author, title, description, image } = req.body;
+  const { author, title, description, image , showBook } = req.body;
+  console.log(req.body);
   const file = req.file;
   const { id } = req.user;
   try {
     if (!file) {
       try {
         const image = "";
-        await addBookQuery(author, title, description, image, id);
+        await addBookQuery(author, title, description, image,showBook, id);
         return res.status(201).json({
           message: "Book Add Success",
         });
@@ -29,7 +30,7 @@ const addBook = async (req, res, next) => {
       const result = await cloudinary.uploader.upload(file.path);
       const imageLink = result.secure_url;
       try {
-        await addBookQuery(author, title, description, imageLink, id);
+        await addBookQuery(author, title, description, imageLink,showBook, id);
         return res.status(201).json({
           message: "Book and Image Add Success",
         });
