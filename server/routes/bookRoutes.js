@@ -4,7 +4,8 @@ import {
   editBook,
   deleteBook,
   getBooks,
-  getBookId
+  getBookId,
+  getBooksNoAuth,
 } from "../controllers/book/index.js";
 import { auth } from "../middlewares/index.js";
 import multer from "multer";
@@ -17,5 +18,6 @@ bookRouter.post("/editbook", auth, upload.single("image"), editBook);
 bookRouter.post("/deletebook", auth, deleteBook);
 bookRouter.get("/getbooks", auth, getBooks);
 bookRouter.get("/getbookid/:id", auth, getBookId);
+bookRouter.get("/getbooksnoauth",getBooksNoAuth);
 
 export default bookRouter;

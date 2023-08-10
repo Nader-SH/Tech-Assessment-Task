@@ -1,9 +1,6 @@
 import { CustomError } from "../../utils/index.js";
 import { getBookIdQuery } from "../../queries/bookQueries/index.js";
 
-import dotenv from "dotenv";
-dotenv.config();
-
 const getBookId = async (req, res, next) => {
   const {id : userId} = req.user;
   const {id : bookId} = req.params;
