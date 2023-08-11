@@ -6,6 +6,7 @@ const getBookIdQuery = async (bookId, id) =>
       id: bookId,
       user_id: id,
     },
+    order: [["createdAt", "DESC"]],
   });
 
 export default getBookIdQuery;

@@ -46,9 +46,7 @@ export default {
           { withCredentials: true }
         );
         this.books = this.books.concat(response.data);
-        console.log(response.data[0]);
       } catch (error) {
-        // console.log(error);
         return;
       }
     },

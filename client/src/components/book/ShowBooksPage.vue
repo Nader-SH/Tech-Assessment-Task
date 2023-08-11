@@ -109,12 +109,10 @@ export default {
   methods: {
     async getBooks() {
       try {
-        console.log("data");
         const response = await axios.get(
           `http://localhost:8080/api/v1/getbooks/?page=${this.currentPage}&searchText=${this.searchText}`,
           { withCredentials: true }
         );
-        console.log(response.data);
         if (response.data.searchBooksData) {
           this.books = [];
           this.books = response.data.searchBooksData;
@@ -173,7 +171,6 @@ export default {
       data.append("description", this.editingBook.description);
       data.append("image", this.editingBook.imageLink);
       data.append("showBook",this.editingBook.showBook)
-      console.log(this.editingBook.showBook); 
       try {
        await axios.post(
           `http://localhost:8080/api/v1/editbook`,

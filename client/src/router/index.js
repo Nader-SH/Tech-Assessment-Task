@@ -56,7 +56,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   document.title = `${to.meta.title}`
-  next();
   const data = await auth();
   if (to.meta.requiresAuth === true) {
     if (data.user && data.token) {
