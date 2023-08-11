@@ -7,7 +7,6 @@ const { API_SECRET, API_KEY, CLOUD_NAME } = process.env;
 
 const addBook = async (req, res, next) => {
   const { author, title, description, image , showBook } = req.body;
-  console.log(req.body);
   const file = req.file;
   const { id } = req.user;
   try {

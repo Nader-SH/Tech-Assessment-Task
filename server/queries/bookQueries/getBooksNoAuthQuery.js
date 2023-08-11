@@ -16,6 +16,7 @@ const getBooksNoAuthQuery = async (page) => {
     ],
     limit,
     offset: (page - 1) * limit,
+    order: [["createdAt", "DESC"]],
   });
 };
 export default getBooksNoAuthQuery;
