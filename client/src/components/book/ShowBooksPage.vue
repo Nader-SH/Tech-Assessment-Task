@@ -15,15 +15,18 @@
       <div v-for="book in books" :key="book.id" class="book-item">
         <div class="book-container">
           <div class="book-image">
-            <v-img v-if="book.imageLink" :src="book.imageLink" alt="Book Cover" />
+            <v-img
+              v-if="book.imageLink"
+              :src="book.imageLink"
+              alt="Book Cover"
+            />
             <div v-else class="no-image-placeholder">No Image Available</div>
           </div>
           <div class="authorTitleDiv">
             <h3 class="title">Title : {{ book.title }}</h3>
             <h4 class="author">By : {{ book.author }}</h4>
           </div>
-          <div class="book-details">
-          </div>
+          <div class="book-details"></div>
           <div class="buttonsDiv">
             <v-btn @click="openEditPopup(book)" class="button">Edit</v-btn>
             <v-btn @click="showDeleteAlert(book.id)" class="button">
@@ -50,7 +53,11 @@
         <label for="author">By:</label>
         <v-text-field v-model="editingBook.author" type="text" id="author" />
         <label for="description">Description:</label>
-        <textarea v-model="editingBook.description" id="description"></textarea>
+        <textarea
+          class="editingDescription"
+          v-model="editingBook.description"
+          id="description"
+        ></textarea>
         <label for="imageLink">Image:</label>
         <v-file-input
           type="file"
@@ -66,12 +73,12 @@
         </div>
         <div v-else class="image-placeholder">No Image Selected</div>
         <div class="checkboxDiv">
-        <v-checkbox
-          class="checkBox"
-          v-model="editingBook.showBook"
-          label="Show the Book in Public"
-        ></v-checkbox>
-      </div>
+          <v-checkbox
+            class="checkBox"
+            v-model="editingBook.showBook"
+            label="Show the Book in Public"
+          ></v-checkbox>
+        </div>
         <div class="buttons-modal">
           <v-btn type="submit" class="button">Save</v-btn>
           <v-btn @click="closeEditPopup" class="button">Cancel</v-btn>
@@ -170,15 +177,11 @@ export default {
       data.append("title", this.editingBook.title);
       data.append("description", this.editingBook.description);
       data.append("image", this.editingBook.imageLink);
-      data.append("showBook",this.editingBook.showBook)
+      data.append("showBook", this.editingBook.showBook);
       try {
-       await axios.post(
-          `http://localhost:8080/api/v1/editbook`,
-          data,
-          {
-            withCredentials: true,
-          }
-        );
+        await axios.post(`http://localhost:8080/api/v1/editbook`, data, {
+          withCredentials: true,
+        });
         this.currentPage = 1;
         this.getBooks();
         this.books = [];
@@ -213,16 +216,16 @@ export default {
 
 <style scoped>
 .v-responsive {
-    display: flex;
-    flex: 1 0 auto;
-    max-height: 80%;
-    max-width: 80%;
-    overflow: hidden;
-    position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  max-height: 80%;
+  max-width: 80%;
+  overflow: hidden;
+  position: relative;
 }
-.v-img__img{
-width: 100%;
-height: 100%;
+.v-img__img {
+  width: 100%;
+  height: 100%;
 }
 
 .search-container {
@@ -239,7 +242,7 @@ height: 100%;
   border: 1px solid #04bca6;
   border-radius: 4px;
 }
-.author{
+.author {
   word-wrap: break-word;
 }
 .title {
@@ -321,7 +324,7 @@ height: 100%;
 
 .book-details {
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   padding: 10px;
 }
 
@@ -371,7 +374,7 @@ height: 100%;
 }
 
 .modal-content {
-  margin-top: 120px;
+  margin-top: 160px;
   margin-bottom: 20px;
   background-color: white;
   padding: 20px;
@@ -392,7 +395,9 @@ height: 100%;
   display: block;
   margin-bottom: 5px;
 }
-
+.editingDescription {
+  height: 100px;
+}
 .modal input,
 .modal textarea {
   width: 100%;

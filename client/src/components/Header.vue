@@ -27,11 +27,18 @@ export default {
   <style scoped>
 .header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
   background-color: #f0f0f0;
 }
+@media (max-width: 442px) {
+  .header {
+    justify-content: center;
+  }
+}
+
 
 .logo {
   width: 100px !important;
