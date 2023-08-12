@@ -1,7 +1,7 @@
 import { Book, User } from "../../models/index.js";
 
 const getBooksNoAuthQuery = async (page) => {
-  const limit = 7;
+  const limit = 6;
   return Book.findAll({
 
     where: {

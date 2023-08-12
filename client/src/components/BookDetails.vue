@@ -49,7 +49,7 @@
           );
           this.book = response.data;
         } catch (error) {
-          console.error("Error getting book details:", error);
+          // console.error("Error getting book details:", error);
         }
       }
     },
