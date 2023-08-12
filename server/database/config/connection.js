@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 dotenv.config();
 
-const { NODE_ENV, DATABASE_URL, DEV_DB_URL } = process.env;
+const { NODE_ENV, DEV_DB_URL } = process.env;
 let url;
 let ssl = false;
 switch (NODE_ENV) {
