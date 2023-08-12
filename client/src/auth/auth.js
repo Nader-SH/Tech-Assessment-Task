@@ -8,7 +8,6 @@ const auth = async () => {
     return response.data;
   } catch (error) {
     return "Unauthorized";
-    // console.error("Error fetching user data:", error);
   }
 };
 

@@ -41,6 +41,9 @@
       <div class="spinnerDiv">
         <Spinner v-if="spinner" />
       </div>
+      <div class="addErrorDiv">
+          <p v-if="addBookError">{{ this.addBookError }}</p>
+        </div>
       <v-btn type="submit" class="submit-button button">Add Book</v-btn>
     </form>
   </div>
@@ -68,6 +71,7 @@ export default {
         showBook: false,
       },
       spinner: false,
+      addBookError: "",
     };
   },
   methods: {
@@ -86,8 +90,7 @@ export default {
             withCredentials: true,
           });
         } catch (error) {
-          return;
-          // console.error("Error adding book:", error);
+         this.addBookError = error.response.data.message;
         } finally {
           this.newBook = {
             title: "",
@@ -122,6 +125,12 @@ export default {
 </script>
 
 <style scoped>
+.addErrorDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
 .spinnerDiv {
   display: flex;
   justify-content: center;

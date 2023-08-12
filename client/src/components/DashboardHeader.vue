@@ -4,6 +4,7 @@
       <v-img :src="logo" alt="Logo" class="logo" />
     </div>
     <div class="user-name">
+      <span class="titleUserName">User Name : </span>
         <span>{{ user.firstName }}</span>
       <span>&nbsp;</span>
       <span>{{ user.lastName }}</span>
@@ -43,7 +44,6 @@ export default {
         this.$router.push({ name: "signin" });
       } catch (error) {
         return;
-        // console.error("Error signing out:", error);
       }
     },
   },
@@ -66,6 +66,12 @@ export default {
   width: 100px !important;
   height: 40px !important;
   object-fit: contain !important;
+}
+.user-name{
+  font-weight: 600;
+}
+.titleUserName{
+  font-weight: 500;
 }
 
 .buttons {

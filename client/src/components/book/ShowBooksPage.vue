@@ -9,7 +9,7 @@
       />
     </div>
     <div v-if="books.length === 0">
-      <p class="noBooks">You have no books. Go to Add Books.</p>
+      <p class="noBooks">No Books.</p>
     </div>
     <div v-else class="book-list">
       <div v-for="book in books" :key="book.id" class="book-item">
@@ -42,8 +42,9 @@
         </div>
       </div>
     </div>
-
-    <div v-if="loading" class="loading-indicator">Loading...</div>
+    <div class="spinnerDiv">
+      <Spinner v-if="spinner" />
+    </div>
 
     <form class="modal" v-if="editingBook" @submit.prevent="submitBook">
       <div class="modal-content">
@@ -82,6 +83,9 @@
         <div class="spinnerDiv">
           <Spinner v-if="spinner" />
         </div>
+        <div class="editErrorDiv">
+          <p v-if="editBookError">{{ this.editBookError }}</p>
+        </div>
         <div class="buttons-modal">
           <v-btn type="submit" class="button">Save</v-btn>
           <v-btn @click="closeEditPopup" class="button">Cancel</v-btn>
@@ -106,13 +110,14 @@ export default {
   data() {
     return {
       books: [],
-      editingBook: "",
+      editingBook: null,
       selectedImageFile: null,
       pathImage: null,
       currentPage: 1,
       loading: false,
       searchText: "",
       spinner: false,
+      editBookError: "",
     };
   },
   created() {
@@ -124,6 +129,7 @@ export default {
   methods: {
     async getBooks() {
       try {
+        this.spinner = true;
         const response = await axios.get(
           `http://localhost:8080/api/v1/getbooks/?page=${this.currentPage}&searchText=${this.searchText}`,
           { withCredentials: true }
@@ -135,10 +141,9 @@ export default {
           this.books = this.books.concat(response.data);
         }
       } catch (error) {
-        // console.error("Error getting books:", error);
         return;
       } finally {
-        this.loading = false;
+        this.spinner = false;
       }
     },
     handleScroll() {
@@ -168,7 +173,6 @@ export default {
         this.getBooks();
       } catch (error) {
         return;
-        // console.error("Error deleting book:", error);
       }
     },
     openEditPopup(book) {
@@ -180,6 +184,7 @@ export default {
     },
     async submitBook() {
       this.spinner = true;
+      this.editBookError = "";
       const data = new FormData();
       data.append("bookId", this.editingBook.id);
       data.append("author", this.editingBook.author);
@@ -188,18 +193,21 @@ export default {
       data.append("image", this.editingBook.imageLink);
       data.append("showBook", this.editingBook.showBook);
       try {
-        await axios.post(`http://localhost:8080/api/v1/editbook`, data, {
-          withCredentials: true,
-        });
-      } catch (error) {
-        return;
-        // console.error("Error editing book:", error);
-      }finally{
-        this.spinner = false;
+        const response = await axios.post(
+          `http://localhost:8080/api/v1/editbook`,
+          data,
+          {
+            withCredentials: true,
+          }
+        );
         this.currentPage = 1;
         this.getBooks();
         this.books = [];
         this.editingBook = null;
+        this.spinner = false;
+      } catch (error) {
+        this.spinner = false;
+        this.editBookError = error.response.data.message;
       }
     },
     async searchBooks(event) {
@@ -226,8 +234,13 @@ export default {
 </script>
 
 <style scoped>
-
-.spinnerDiv{
+.editErrorDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+.spinnerDiv {
   display: flex;
   justify-content: center;
 }
@@ -268,6 +281,8 @@ export default {
 .noBooks {
   display: flex;
   justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .page-content {
