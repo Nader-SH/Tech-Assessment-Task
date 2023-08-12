@@ -5,9 +5,9 @@ const editBookQuery = async (
   author,
   title,
   description,
-  imageLink,
   showBook,
-  id
+  id,
+  imageLink
 ) =>
   Book.update(
     {
@@ -15,7 +15,7 @@ const editBookQuery = async (
       title: title,
       description: description,
       imageLink: imageLink,
-      showBook : showBook,
+      showBook: showBook,
     },
     {
       where: {

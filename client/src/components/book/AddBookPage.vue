@@ -25,7 +25,6 @@
         rows="4"
         required
       ></v-textarea>
-
       <label for="image">Select an Image:</label>
       <v-file-input
         v-model="newBook.image"
@@ -39,7 +38,9 @@
           label="Show a book to the public"
         ></v-checkbox>
       </div>
-
+      <div class="spinnerDiv">
+        <Spinner v-if="spinner" />
+      </div>
       <v-btn type="submit" class="submit-button button">Add Book</v-btn>
     </form>
   </div>
@@ -47,9 +48,13 @@
 
 <script>
 import axios from "axios";
+import Spinner from "../spinners/Spinner.vue";
 
 export default {
   name: "AddBookPage",
+  components: {
+    Spinner,
+  },
   props: {
     pageTitle: String,
   },
@@ -62,31 +67,36 @@ export default {
         image: null || "",
         showBook: false,
       },
+      spinner: false,
     };
   },
   methods: {
     async addBook() {
       if (this.validateForm()) {
         try {
+          this.spinner = true;
           const formData = new FormData();
           formData.append("title", this.newBook.title);
           formData.append("author", this.newBook.author);
           formData.append("description", this.newBook.description);
           formData.append("image", this.newBook.image[0]);
-          formData.append("showBook", this.showBook);
+          formData.append("showBook", this.newBook.showBook);
 
           await axios.post("http://localhost:8080/api/v1/addbook", formData, {
             withCredentials: true,
           });
+        } catch (error) {
+          return;
+          // console.error("Error adding book:", error);
+        } finally {
           this.newBook = {
             title: "",
             author: "",
             description: "",
             image: null || "",
-            showBook:"",
+            showBook: false,
           };
-        } catch (error) {
-          console.error("Error adding book:", error);
+          this.spinner = false;
         }
       }
     },
@@ -96,17 +106,26 @@ export default {
           this.newBook.author.trim() !== "" &&
           this.newBook.description.trim() !== "" &&
           this.newBook.image[0] !== null) ||
-        ""
+        ("" && this.newBook.showBook === true) ||
+        false
       );
     },
     showBookToPublic() {
-      this.showBook = this.showBook ? false : true;
+      if (this.showBook === true) {
+        this.showBook = false;
+      } else {
+        this.showBook = true;
+      }
     },
   },
 };
 </script>
 
 <style scoped>
+.spinnerDiv {
+  display: flex;
+  justify-content: center;
+}
 .page-content {
   padding: 20px;
 }

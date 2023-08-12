@@ -75,9 +75,12 @@
         <div class="checkboxDiv">
           <v-checkbox
             class="checkBox"
-            v-model="editingBook.showBook"
+            v-model="this.editingBook.showBook"
             label="Show the Book in Public"
           ></v-checkbox>
+        </div>
+        <div class="spinnerDiv">
+          <Spinner v-if="spinner" />
         </div>
         <div class="buttons-modal">
           <v-btn type="submit" class="button">Save</v-btn>
@@ -90,21 +93,26 @@
 
 <script>
 import axios from "axios";
+import Spinner from "../spinners/Spinner.vue";
 
 export default {
   name: "ShowBooksPage",
   props: {
     pageTitle: String,
   },
+  components: {
+    Spinner,
+  },
   data() {
     return {
       books: [],
-      editingBook: null,
+      editingBook: "",
       selectedImageFile: null,
       pathImage: null,
       currentPage: 1,
       loading: false,
       searchText: "",
+      spinner: false,
     };
   },
   created() {
@@ -127,8 +135,8 @@ export default {
           this.books = this.books.concat(response.data);
         }
       } catch (error) {
-        return;
         // console.error("Error getting books:", error);
+        return;
       } finally {
         this.loading = false;
       }
@@ -171,6 +179,7 @@ export default {
       this.pathImage = null;
     },
     async submitBook() {
+      this.spinner = true;
       const data = new FormData();
       data.append("bookId", this.editingBook.id);
       data.append("author", this.editingBook.author);
@@ -182,13 +191,15 @@ export default {
         await axios.post(`http://localhost:8080/api/v1/editbook`, data, {
           withCredentials: true,
         });
+      } catch (error) {
+        return;
+        // console.error("Error editing book:", error);
+      }finally{
+        this.spinner = false;
         this.currentPage = 1;
         this.getBooks();
         this.books = [];
         this.editingBook = null;
-      } catch (error) {
-        return;
-        // console.error("Error editing book:", error);
       }
     },
     async searchBooks(event) {
@@ -215,6 +226,11 @@ export default {
 </script>
 
 <style scoped>
+
+.spinnerDiv{
+  display: flex;
+  justify-content: center;
+}
 .v-responsive {
   display: flex;
   flex: 1 0 auto;

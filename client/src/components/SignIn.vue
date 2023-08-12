@@ -67,8 +67,9 @@ export default {
         );
         this.$router.push({ name: "dashboard" });
       } catch (error) {
-        console.error("Error sending data:", error.response.data.message);
+        // console.error("Error sending data:", error.response.data.message);
         this.error = error.response.data.message;
+        return;
       }
     },
     togglePasswordVisibility() {

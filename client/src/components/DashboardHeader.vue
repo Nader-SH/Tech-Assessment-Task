@@ -42,7 +42,8 @@ export default {
         );
         this.$router.push({ name: "signin" });
       } catch (error) {
-        console.error("Error signing out:", error);
+        return;
+        // console.error("Error signing out:", error);
       }
     },
   },

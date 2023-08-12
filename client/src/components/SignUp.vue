@@ -88,8 +88,9 @@ export default {
         );
         this.$router.push({ name: "signin" });
       } catch (error) {
-        console.error("Error sending data:", error.response.data.message);
+        // console.error("Error sending data:", error.response.data.message);
         this.errorMessage = error.response.data.message;
+        return;
       }
     },
     togglePasswordVisibility() {
