@@ -18,7 +18,7 @@ A full-stack web application for managing a personal book collection. The applic
 
 ## [**Database Schema**:](https://drawsql.app/teams/nader-shak/diagrams/onex-beginning-of-the-technical-assessment)
 
-![Onex - Beginning of the technical assessment _ DrawSQL - Google Chrome 8_10_2023 9_44_10 PM (2)](https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/63819498-a70e-4e00-8edb-b478411f604d)
+![Onex - Beginning of the technical assessment _ DrawSQL - Google Chrome 8_10_2023 9_44_10 PM (2)](https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/8ca8bdf4-6738-4fff-96bd-969b63b80c17)
 
 
 ## **Getting Started**  
