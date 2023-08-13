@@ -2,8 +2,7 @@
 <br />
 
 <div align="center" id="top">
-    <img src="https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/8ec2470d-0d3a-4ee1-bacf-2ee90d160406"  height="99" alt="Logo" >
-
+    <img src="https://github.com/Nader-SH/Tech-Assessment-Task/assets/64221231/a753fc5b-8625-4fb1-b8e5-f2ab8dab0c65"  height="99" alt="Logo" >
 
   <h3 align="center">
     Tech Assessment Task For Onex
