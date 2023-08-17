@@ -13,7 +13,7 @@
 <br />
 
 ## Description:
-A full-stack web application for managing a personal book collection. The application should allow users to add new books to their collection, view the list of books they have.
+A full-stack web application for managing a personal book collection. The application allow users to add new books to their collection, view the list of books they have.
 
 ## [**Database Schema**:](https://drawsql.app/teams/nader-shak/diagrams/onex-beginning-of-the-technical-assessment)
 
